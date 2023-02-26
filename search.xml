@@ -2355,7 +2355,7 @@
   </entry>
   <entry>
     <title>秒杀架构</title>
-    <url>/2023/02/26/%E7%A7%92%E6%9D%80%E6%9E%B6%E6%9E%84/</url>
+    <url>/2023/02/26/0.4.0-%E7%A7%92%E6%9D%80%E6%9E%B6%E6%9E%84/</url>
     <content><![CDATA[<h3 id="什么是秒杀（seckill）"><a href="#什么是秒杀（seckill）" class="headerlink" title="什么是秒杀（seckill）"></a>什么是秒杀（seckill）</h3><p>seckill是一个老生常谈的场景<br>它一般出现在电商系统中，在某些特定的节日，限定特定商品数量以超低折扣进行促销引流<br>按照秒杀的特性，特价商品一般在一两秒内被抢光，剩下的人只会出现售罄页面<br>这一两秒会出现一个瞬间峰值，因为是短暂的活动，不能消耗太多服务器资源，所以需要达到最小代价做到最大的抗压，不直接冲垮服务器，还得保证不超卖，不丢单，不宕机等问题</p>
 <h3 id="seckill需要注意哪些问题"><a href="#seckill需要注意哪些问题" class="headerlink" title="seckill需要注意哪些问题"></a>seckill需要注意哪些问题</h3><h4 id="幂等"><a href="#幂等" class="headerlink" title="幂等"></a>幂等</h4><blockquote>
 <p>多次调用方法或者接口不会改变业务状态，可以保证重复调用的结果和单次调用的结果一致</p>
