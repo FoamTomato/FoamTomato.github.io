@@ -1,0 +1,265 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>喵喵鱼塘</title><meta name="author" content="Foam🍅"><meta name="copyright" content="Foam🍅"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><script type="application/ld+json"></script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://foamtomato.github.io/page/4/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '喵喵鱼塘',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'home'
+}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">88</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">292</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/Music"><i class="fa-fw /music/"></i><span> 0</span></a></li><li><a class="site-page child" href="/Movie"><i class="fa-fw /movies/"></i><span> 1</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(https://i.loli.net/2020/05/01/IuWi8QbHvzjlOPw.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">喵喵鱼塘</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/Music"><i class="fa-fw /music/"></i><span> 0</span></a></li><li><a class="site-page child" href="/Movie"><i class="fa-fw /movies/"></i><span> 1</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">喵喵鱼塘</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/FoamTomato" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="post_cover left"><a href="/2025/01/25/0.6.4-Java%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87P90%20P95%20P99%E8%AF%A6%E8%A7%A3%E4%B8%8E%E5%AE%9E%E7%8E%B0/" title="Java性能指标P90 P95 P99详解与实现"><img class="post-bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java性能指标P90 P95 P99详解与实现"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/01/25/0.6.4-Java%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87P90%20P95%20P99%E8%AF%A6%E8%A7%A3%E4%B8%8E%E5%AE%9E%E7%8E%B0/" title="Java性能指标P90 P95 P99详解与实现">Java性能指标P90 P95 P99详解与实现</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-01-24T16:00:00.000Z" title="发表于 2025-01-25 00:00:00">2025-01-25</time></span></div><div class="content"> 在高并发系统中，平均响应时间往往不能真实反映用户体验。P90、P95、P99等百分位数指标能够更准确地评估系统性能表现。本文将深入探讨这些性能指标的定义、计算方法，并提供完整的Java实现方案。  🎯 什么是百分位数？百分位数（Percentile）是统计学中的概念，表示在数据集中有多少比例的数据小于或等于该值。 基本概念 P50（中位数）: 50%的请求响应时间小于该值 P90: 90%的请求响应时间小于该值 P95: 95%的请求响应时间小于该值 P99: 99%的请求响应时间小于该值 P999: 99.9%的请求响应时间小于该值  为什么需要百分位数？1234567// 平均响应时间 vs 百分位数对比List&lt;Long&gt; responseTimes = Arrays.asList(    10L, 12L, 15L, 18L, 20L, 25L, 1000L, 2000L, 5000L);// 平均值：约700ms（看起来还不错）// 但P95是5000ms，说明95%的用户体验很差！  📊 性能指标详解P90（90th Percentile）定义: 数...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2025/01/21/0.5.6-%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E6%90%AD%E5%BB%BA%E4%B8%8E%E4%B8%BB%E6%B5%81%E4%BA%A7%E5%93%81%E5%AF%B9%E6%AF%94/" title="向量数据库搭建与主流产品对比"><img class="post-bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="向量数据库搭建与主流产品对比"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/01/21/0.5.6-%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E6%90%AD%E5%BB%BA%E4%B8%8E%E4%B8%BB%E6%B5%81%E4%BA%A7%E5%93%81%E5%AF%B9%E6%AF%94/" title="向量数据库搭建与主流产品对比">向量数据库搭建与主流产品对比</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-01-20T16:00:00.000Z" title="发表于 2025-01-21 00:00:00">2025-01-21</time></span></div><div class="content"> 向量数据库是现代AI应用的核心基础设施，它不仅解决了传统数据库在高维向量检索上的性能瓶颈，还为大模型应用提供了高效的外部知识库支持。本文将深入剖析向量数据库的技术原理，通过Java代码示例展示实际应用，并详细对比主流产品的技术特点和使用场景。  🎯 向量数据库技术深度剖析向量数据库的本质与价值向量数据库是一种专门为高维向量数据设计的新型数据库系统，它解决了传统关系型数据库在处理向量相似度检索时的根本性问题： 传统数据库的局限性12345-- 传统SQL查询：无法高效计算向量相似度SELECT * FROM documentsWHERE cosine_similarity(embedding, query_vector) &gt; 0.8ORDER BY cosine_similarity(embedding, query_vector) DESCLIMIT 10;  问题：  ❌ 性能瓶颈：高维向量相似度计算复杂度O(n²) ❌ 索引失效：传统B-Tree索引不支持向量距离计算 ❌ 扩展性差：无法处理海量向量化数据  向量数据库的核心优势12// 向量数据库查询：毫秒级响应，...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2025/01/20/0.5.5-Java%E5%BC%82%E5%B8%B8%E6%97%A5%E5%BF%97MCP%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/" title="Java异常日志MCP服务架构"><img class="post-bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java异常日志MCP服务架构"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/01/20/0.5.5-Java%E5%BC%82%E5%B8%B8%E6%97%A5%E5%BF%97MCP%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/" title="Java异常日志MCP服务架构">Java异常日志MCP服务架构</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-01-19T16:00:00.000Z" title="发表于 2025-01-20 00:00:00">2025-01-20</time></span></div><div class="content"> 在微服务架构中，异常日志不仅是问题排查的重要线索，更是AI辅助诊断的宝贵数据源。本文将详细介绍如何构建完整的Java异常日志捕获、存储和MCP服务架构，让大模型能够智能分析和处理异常信息。  🎯 架构概览系统架构图12345[Java应用] → [异常捕获] → [日志结构化] → [MongoDB存储]      ↓              ↓              ↓              ↓[业务逻辑] → [AOP拦截] → [日志模型] → [索引优化]      ↓              ↓              ↓              ↓[监控告警] → [实时分析] → [MCP服务] → [大模型调用]  核心组件说明📋 技术栈选型核心技术栈 Spring Boot 2.7+: 微服务框架 MongoDB 5.0+: 文档型数据库 Spring AOP: 异常拦截 MCP (Model Context Protocol): 大模型服务协议 Jackson: JSON序列化 SLF4J + Logback: 日志框架  依赖版本123...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2025/01/17/0.5.4-Java%E9%AB%98%E5%BE%B7%E5%9C%B0%E5%9B%BEMCP%E5%AE%9A%E5%88%B6%E6%97%85%E6%B8%B8%E8%B7%AF%E7%BA%BF/" title="Java高德地图MCP定制旅游路线"><img class="post-bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java高德地图MCP定制旅游路线"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/01/17/0.5.4-Java%E9%AB%98%E5%BE%B7%E5%9C%B0%E5%9B%BEMCP%E5%AE%9A%E5%88%B6%E6%97%85%E6%B8%B8%E8%B7%AF%E7%BA%BF/" title="Java高德地图MCP定制旅游路线">Java高德地图MCP定制旅游路线</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-01-16T16:00:00.000Z" title="发表于 2025-01-17 00:00:00">2025-01-17</time></span></div><div class="content"> 使用Java集成高德地图MCP服务，打造智能化的定制旅游路线规划系统。本文将带你从零开始，掌握高德地图Java SDK的使用技巧，实现完整的旅游路线规划功能。  高德地图MCP简介高德地图MCP（Maps Content Platform）是高德地图提供的一套开放平台服务，开发者可以通过API调用获取丰富的地图数据和地理信息服务。高德地图Java SDK提供了完整的Java封装，让Java开发者能够轻松集成高德地图的各项功能。 为什么选择高德地图MCP？ 数据丰富准确：中国最权威的地图数据提供商 服务稳定可靠：企业级SLA保证，服务可用性99.9% 功能全面：覆盖路径规划、地理编码、POI搜索等全方位服务 Java SDK完善：官方维护的Java SDK，更新及时 成本可控：按需付费，适合各种规模应用 合规安全：符合中国法律法规，支持数据加密传输  核心功能详解1. POI搜索（兴趣点搜索）POI（Point of Interest）搜索是地图应用的基础功能，用于查找附近的景点、餐厅、酒店等。 123456789101112131415161718192021222324252...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2025/01/16/0.5.3-SpringAI%E6%89%93%E9%80%A0%E8%87%AA%E5%B7%B1%E7%9A%84LLM%E5%BA%94%E7%94%A8/" title="Spring AI打造自己的LLM应用"><img class="post-bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Spring AI打造自己的LLM应用"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/01/16/0.5.3-SpringAI%E6%89%93%E9%80%A0%E8%87%AA%E5%B7%B1%E7%9A%84LLM%E5%BA%94%E7%94%A8/" title="Spring AI打造自己的LLM应用">Spring AI打造自己的LLM应用</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-01-15T16:00:00.000Z" title="发表于 2025-01-16 00:00:00">2025-01-16</time></span></div><div class="content"> Spring AI是Spring官方推出的AI框架，为Java开发者提供了原生的AI开发体验。本文将带你从零开始，掌握Spring AI的核心概念和Spring Boot集成技巧，打造属于自己的AI应用。  Spring AI简介Spring AI是Spring官方推出的AI框架，专门为Java和Spring开发者设计，提供了一套简洁、直观且符合Spring生态的AI开发API。它集成了多种主流的AI模型和服务，让开发者能够轻松构建AI驱动的应用。 为什么选择Spring AI？ Spring生态完美集成：无缝集成Spring Boot、Spring Cloud等 官方维护：Spring官方项目，质量保证 简洁的API：直观的编程模型，学习成本低 企业级支持：完整的生产环境特性支持 多模型支持：支持OpenAI、Azure OpenAI、Ollama等多种模型 工具集成：内置丰富的工具和增强器 社区活跃：Spring社区强大的支持  核心组件详解1. ChatClient（聊天客户端）ChatClient是Spring AI的核心组件，提供简洁的聊天交互API。 1234567...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2025/01/15/0.5.2-LangChain4j%E6%89%93%E9%80%A0%E8%87%AA%E5%B7%B1%E7%9A%84LLM%E5%BA%94%E7%94%A8/" title="LangChain4j打造自己的LLM应用"><img class="post-bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LangChain4j打造自己的LLM应用"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/01/15/0.5.2-LangChain4j%E6%89%93%E9%80%A0%E8%87%AA%E5%B7%B1%E7%9A%84LLM%E5%BA%94%E7%94%A8/" title="LangChain4j打造自己的LLM应用">LangChain4j打造自己的LLM应用</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-01-14T16:00:00.000Z" title="发表于 2025-01-15 00:00:00">2025-01-15</time></span></div><div class="content"> LangChain4j是Java生态中强大的框架，帮助开发者快速构建基于大语言模型的应用。本文将带你从零开始，掌握LangChain4j的核心概念和Spring Boot集成技巧，打造属于自己的AI应用。  LangChain4j简介LangChain4j是一个开源框架，专门为Java开发者设计，用于开发基于大语言模型的应用程序。它提供了一套完整的工具链，包括模型集成、提示工程、链式调用、记忆管理、代理系统等核心组件，并与Spring Boot等Java生态完美集成。 为什么选择LangChain4j？ Java原生支持：专为Java生态设计，与Spring Boot完美集成 类型安全：利用Java的类型系统，提供更好的开发体验 简化开发流程：提供标准化组件，减少重复代码 模型无关性：支持多种LLM，如OpenAI、Anthropic、Hugging Face等 可扩展性：模块化设计，易于定制和扩展 生产就绪：内置错误处理、日志记录等企业级功能 社区活跃：拥有完善的文档和活跃的开源社区  核心组件详解1. Models（模型）LangChain4j支持多种类型的模型，包括大语言...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2025/01/15/0.6.3-Web3%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%8C%BA%E5%9D%97%E9%93%BE%E4%BA%92%E8%81%94%E7%BD%91%E7%9A%84%E6%9C%AA%E6%9D%A5/" title="Web3从入门到精通：区块链互联网的未来"><img class="post-bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Web3从入门到精通：区块链互联网的未来"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/01/15/0.6.3-Web3%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%8C%BA%E5%9D%97%E9%93%BE%E4%BA%92%E8%81%94%E7%BD%91%E7%9A%84%E6%9C%AA%E6%9D%A5/" title="Web3从入门到精通：区块链互联网的未来">Web3从入门到精通：区块链互联网的未来</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2025-01-14T16:00:00.000Z" title="发表于 2025-01-15 00:00:00">2025-01-15</time></span></div><div class="content"> Web3正在重塑互联网的未来。本文将带你深入理解Web3的核心概念、技术架构、应用场景和发展挑战，让你全面掌握这个区块链驱动的新一代互联网。  Web3简介：互联网的新纪元Web3代表着互联网发展的第三个阶段，它建立在区块链技术之上，致力于创建一个更加开放、透明和去中心化的网络世界。与传统的Web2（以社交媒体和移动应用为代表）不同，Web3强调用户主权、数据所有权和价值互联网。 Web3的演进历程互联网的发展可以分为三个主要阶段：  Web1.0 (1990s-2000s)：只读互联网  静态网页单向信息传递以内容消费为主2. Web2.0 (2000s-2020s)：读写互联网 社交媒体平台用户生成内容大数据和AI应用问题：数据垄断、隐私泄露、平台审查3. Web3.0 (2020s-)：读写拥有互联网 区块链技术支撑用户拥有数据和身份去中心化应用 (dApps)加密经济系统 Web3的核心技术架构区块链：Web3的基石区块链是Web3的核心基础设施，它提供了：  去中心化：无单一控制点 不可篡改：数据永久记录 透明性：公开可验证 安全性：加密算法保护  123456789...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/08/31/0.5.1-jenkins%E4%B8%89%E7%A7%8D%E9%83%A8%E7%BD%B2%E6%96%B9%E5%BC%8F/" title="jenkins三种部署方式"><img class="post-bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="jenkins三种部署方式"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/08/31/0.5.1-jenkins%E4%B8%89%E7%A7%8D%E9%83%A8%E7%BD%B2%E6%96%B9%E5%BC%8F/" title="jenkins三种部署方式">jenkins三种部署方式</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-08-30T16:00:00.000Z" title="发表于 2023-08-31 00:00:00">2023-08-31</time></span></div><div class="content">Jenkins 是一款开源 CI&amp;CD 软件 持续集成(CI)123持续集成是指多名开发这在开发不同功能代码的过程中，可以频繁的将代码合并到一起并且相互不影响工作。持续集成是在版本控制的基础上，通过频繁的代码提交、自动化构建和单元测试加快集成周期和问题反馈速度，从而及时验证系统可用性。为了保证后续的系统质量，在持续集成过程中，还会加入代码规范扫描、安全漏洞扫描、集成测试等活动，用来保证代码形成过程符合质量要求。持续集成的频率达到每天多次、频繁的集成，可以提前发现问题尽早解决冲突，使后续的持续集成更顺畅。  持续部署(CD)123持续部署是基于某种工具或者平台实现代码自动化的构建、测试和部署到线上环境以实现交付高质量的产品，持续部署在某种程度上代表一个开发团队的更新迭代速率。持续部署并不特指通过质量验证的制品自动部署到生产环境的特定环节。在持续集成过程中不断生成可执行的制品，需要尽快验证是否存在功能性能等方面的问题，或者尽可能快速的让最终用户可以使用这些功能。通过持续部署到测试环境、准生成环境中，可以使测试团队尽快开始测试，开发团队获得快速的反馈并响应。使研发和测试的协同加...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/06/06/0.4.2-%E8%A7%84%E5%88%99%E6%9E%9A%E4%B8%BE/" title="规则枚举"><img class="post-bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="规则枚举"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/06/06/0.4.2-%E8%A7%84%E5%88%99%E6%9E%9A%E4%B8%BE/" title="规则枚举">规则枚举</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-05T16:00:00.000Z" title="发表于 2023-06-06 00:00:00">2023-06-06</time></span></div><div class="content">规则枚举一些简单的猜想实现，用来去除ifelse或者switch，虽然在jdk17中已经引入了新的switch语法，但是还是想做一些尝试 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849package com.tthk.inland.ticket.core.enums.czloworder;import lombok.AllArgsConstructor;import lombok.Getter;import java.util.Arrays;/** * @author Foam * @Description 枚举 * @date 2023/5/4 17:12 */@Getter@AllArgsConstructorpublic enum LowOrderEnums &#123;    UNLIMITED(&quot;枚举1&quot;)&#123;        @Override        public boolean check(Intege...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/06/06/0.4.5-http%E5%B7%A5%E5%85%B7%E7%B1%BB%E7%BB%9F%E4%B8%80%E5%B0%81%E8%A3%85/" title="http工具类统一封装"><img class="post-bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="http工具类统一封装"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/06/06/0.4.5-http%E5%B7%A5%E5%85%B7%E7%B1%BB%E7%BB%9F%E4%B8%80%E5%B0%81%E8%A3%85/" title="http工具类统一封装">http工具类统一封装</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-06-05T16:00:00.000Z" title="发表于 2023-06-06 00:00:00">2023-06-06</time></span></div><div class="content">http工具类统一封装 个人封装使用，仅供参考,用来捕获接口异常，并且通知到企业微信  123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354package com.tthk.inland.ticket.core.utils.https;import cn.hutool.http.HttpRequest;import cn.hutool.http.HttpResponse;import com.alibaba.fastjson.JSONObject;import com.tthk.framework.base.api.dto.CommonResult;import com.tthk.inland.ticket.core.enums.result.ResulEnum;import com.tthk.inland.ticket.core.enums.wechat.WeChatEnums;import com.tthk.inland.ticke...</div></div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/3/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/#content-inner">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/#content-inner">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/#content-inner">9</a><a class="extend next" rel="next" href="/page/5/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Foam🍅</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">88</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">292</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/FoamTomato" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/08/25/0.6.2-Netty%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90%E4%B8%8E%E6%97%B6%E9%97%B4%E8%BD%AE%E8%AF%A6%E8%A7%A3/" title="Netty深度剖析与时间轮详解：构建高性能网络应用"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Netty深度剖析与时间轮详解：构建高性能网络应用"/></a><div class="content"><a class="title" href="/2025/08/25/0.6.2-Netty%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90%E4%B8%8E%E6%97%B6%E9%97%B4%E8%BD%AE%E8%AF%A6%E8%A7%A3/" title="Netty深度剖析与时间轮详解：构建高性能网络应用">Netty深度剖析与时间轮详解：构建高性能网络应用</a><time datetime="2025-08-24T16:00:00.000Z" title="发表于 2025-08-25 00:00:00">2025-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/20/0.6.1-MySQL%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%85%A8%E6%94%BB%E7%95%A5/" title="MySQL性能优化全攻略：从入门到精通"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL性能优化全攻略：从入门到精通"/></a><div class="content"><a class="title" href="/2025/08/20/0.6.1-MySQL%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%85%A8%E6%94%BB%E7%95%A5/" title="MySQL性能优化全攻略：从入门到精通">MySQL性能优化全攻略：从入门到精通</a><time datetime="2025-08-19T16:00:00.000Z" title="发表于 2025-08-20 00:00:00">2025-08-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/15/0.6.0-LLM%E6%95%B0%E6%8D%AE%E6%8F%90%E5%8F%96%E4%B8%8E%E5%90%91%E9%87%8F%E5%AD%98%E5%82%A8%E6%9E%B6%E6%9E%84/" title="LLM数据提取与向量存储架构：构建智能知识库系统"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LLM数据提取与向量存储架构：构建智能知识库系统"/></a><div class="content"><a class="title" href="/2025/08/15/0.6.0-LLM%E6%95%B0%E6%8D%AE%E6%8F%90%E5%8F%96%E4%B8%8E%E5%90%91%E9%87%8F%E5%AD%98%E5%82%A8%E6%9E%B6%E6%9E%84/" title="LLM数据提取与向量存储架构：构建智能知识库系统">LLM数据提取与向量存储架构：构建智能知识库系统</a><time datetime="2025-08-14T16:00:00.000Z" title="发表于 2025-08-15 00:00:00">2025-08-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/10/0.5.9-%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8BLLM%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/" title="大语言模型LLM完全指南：从基础概念到实际应用"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="大语言模型LLM完全指南：从基础概念到实际应用"/></a><div class="content"><a class="title" href="/2025/08/10/0.5.9-%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8BLLM%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/" title="大语言模型LLM完全指南：从基础概念到实际应用">大语言模型LLM完全指南：从基础概念到实际应用</a><time datetime="2025-08-09T16:00:00.000Z" title="发表于 2025-08-10 00:00:00">2025-08-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/06/0.5.8-MinIO%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E5%B1%80%E5%9F%9F%E7%BD%91%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/" title="MinIO搭建本地局域网文件管理系统"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MinIO搭建本地局域网文件管理系统"/></a><div class="content"><a class="title" href="/2025/08/06/0.5.8-MinIO%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E5%B1%80%E5%9F%9F%E7%BD%91%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/" title="MinIO搭建本地局域网文件管理系统">MinIO搭建本地局域网文件管理系统</a><time datetime="2025-08-05T16:00:00.000Z" title="发表于 2025-08-06 00:00:00">2025-08-06</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/" style="font-size: 1.3em; color: #99a1ac">代码规范</a> <a href="/tags/DeFi/" style="font-size: 1.1em; color: #999">DeFi</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 1.3em; color: #99a1ac">设计模式</a> <a href="/tags/Cursor/" style="font-size: 1.3em; color: #99a1ac">Cursor</a> <a href="/tags/%E5%AE%9E%E4%BD%93%E7%B1%BB/" style="font-size: 1.1em; color: #999">实体类</a> <a href="/tags/TypeScript/" style="font-size: 1.2em; color: #999da3">TypeScript</a> <a href="/tags/mysql/" style="font-size: 1.4em; color: #99a5b6">mysql</a> <a href="/tags/%E5%9F%BA%E7%A1%80/" style="font-size: 1.3em; color: #99a1ac">基础</a> <a href="/tags/%E4%BC%81%E4%B8%9A%E7%9F%A5%E8%AF%86%E5%BA%93/" style="font-size: 1.1em; color: #999">企业知识库</a> <a href="/tags/%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%80%BC/" style="font-size: 1.1em; color: #999">作用域值</a> <a href="/tags/%E5%86%85%E5%AE%B9%E7%94%9F%E6%88%90/" style="font-size: 1.1em; color: #999">内容生成</a> <a href="/tags/Embedding/" style="font-size: 1.2em; color: #999da3">Embedding</a> <a href="/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3/" style="font-size: 1.2em; color: #999da3">自定义注解</a> <a href="/tags/%E6%A8%A1%E5%9E%8B%E4%BC%98%E5%8C%96/" style="font-size: 1.1em; color: #999">模型优化</a> <a href="/tags/%E5%A4%9A%E7%89%88%E6%9C%ACJAR/" style="font-size: 1.1em; color: #999">多版本JAR</a> <a href="/tags/Lambda%E5%8F%82%E6%95%B0var/" style="font-size: 1.1em; color: #999">Lambda参数var</a> <a href="/tags/%E8%BF%90%E8%A1%8C%E6%97%B6%E9%95%9C%E5%83%8F/" style="font-size: 1.1em; color: #999">运行时镜像</a> <a href="/tags/xml/" style="font-size: 1.1em; color: #999">xml</a> <a href="/tags/%E7%AE%80%E5%8D%95Web%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 1.1em; color: #999">简单Web服务器</a> <a href="/tags/Unicode-10/" style="font-size: 1.1em; color: #999">Unicode 10</a> <a href="/tags/%E5%8A%A0%E5%AF%86%E8%B4%A7%E5%B8%81/" style="font-size: 1.1em; color: #999">加密货币</a> <a href="/tags/%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E5%8D%B3%E4%BB%A3%E7%A0%81/" style="font-size: 1.1em; color: #999">基础设施即代码</a> <a href="/tags/%E9%AB%98%E5%B9%B6%E5%8F%91/" style="font-size: 1.3em; color: #99a1ac">高并发</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 1.2em; color: #999da3">人工智能</a> <a href="/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" style="font-size: 1.1em; color: #999">开发环境</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E5%B7%A5%E5%85%B7/" style="font-size: 1.2em; color: #999da3">自动化工具</a> <a href="/tags/Java24/" style="font-size: 1.1em; color: #999">Java24</a> <a href="/tags/Switch%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 1.3em; color: #99a1ac">Switch表达式</a> <a href="/tags/Java8/" style="font-size: 1.1em; color: #999">Java8</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8F%90%E5%8F%96/" style="font-size: 1.1em; color: #999">数据提取</a> <a href="/tags/%E6%8F%92%E4%BB%B6/" style="font-size: 1.1em; color: #999">插件</a> <a href="/tags/%E6%95%85%E9%9A%9C%E6%81%A2%E5%A4%8D/" style="font-size: 1.1em; color: #999">故障恢复</a> <a href="/tags/%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/" style="font-size: 1.1em; color: #999">异步编程</a> <a href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5/" style="font-size: 1.2em; color: #999da3">代码审查</a> <a href="/tags/%E5%93%8D%E5%BA%94%E5%BC%8F%E6%B5%81/" style="font-size: 1.1em; color: #999">响应式流</a> <a href="/tags/java/" style="font-size: 1.5em; color: #99a9bf">java</a> <a href="/tags/JShell/" style="font-size: 1.1em; color: #999">JShell</a> <a href="/tags/%E6%99%BA%E8%83%BD%E5%88%9B%E4%BD%9C/" style="font-size: 1.1em; color: #999">智能创作</a> <a href="/tags/DAOs/" style="font-size: 1.1em; color: #999">DAOs</a> <a href="/tags/%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" style="font-size: 1.1em; color: #999">异常处理</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>归档</span>
+      <a class="card-more-btn" href="/archives/"
+            title="查看更多">
+            <i class="fas fa-angle-right"></i>
+          </a>
+    </div>
+  
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/08/">
+            <span class="card-archive-list-date">
+              八月 2025
+            </span>
+            <span class="card-archive-list-count">6</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/06/">
+            <span class="card-archive-list-date">
+              六月 2025
+            </span>
+            <span class="card-archive-list-count">5</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/05/">
+            <span class="card-archive-list-date">
+              五月 2025
+            </span>
+            <span class="card-archive-list-count">9</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/04/">
+            <span class="card-archive-list-date">
+              四月 2025
+            </span>
+            <span class="card-archive-list-count">2</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/03/">
+            <span class="card-archive-list-date">
+              三月 2025
+            </span>
+            <span class="card-archive-list-count">4</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/02/">
+            <span class="card-archive-list-date">
+              二月 2025
+            </span>
+            <span class="card-archive-list-count">4</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/01/">
+            <span class="card-archive-list-date">
+              一月 2025
+            </span>
+            <span class="card-archive-list-count">7</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2023/08/">
+            <span class="card-archive-list-date">
+              八月 2023
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By Foam🍅</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><script src="/js/tw_cn.js?v=5.5.4"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>window.typedJSFn = {
+  init: str => {
+    window.typed = new Typed('#subtitle', Object.assign({
+      strings: str,
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50,
+    }, null))
+  },
+  run: subtitleType => {
+    if (true) {
+      if (typeof Typed === 'function') {
+        subtitleType()
+      } else {
+        btf.getScript('https://cdn.jsdelivr.net/npm/typed.js@3.0.0/dist/typed.umd.min.js').then(subtitleType)
+      }
+    } else {
+      subtitleType()
+    }
+  },
+  processSubtitle: (content, extraContents = []) => {
+    if (true) {
+      const sub = ["今日事&#44;今日畢","Never put off till tomorrow what you can do today"].slice()
+
+      if (extraContents.length > 0) {
+        sub.unshift(...extraContents)
+      }
+
+      if (typeof content === 'string') {
+        sub.unshift(content)
+      } else if (Array.isArray(content)) {
+        sub.unshift(...content)
+      }
+
+      sub.length > 0 && typedJSFn.init(sub)
+    } else {
+      document.getElementById('subtitle').textContent = typeof content === 'string' ? content :
+        (Array.isArray(content) && content.length > 0 ? content[0] : '')
+    }
+  }
+}
+btf.addGlobalFn('pjaxSendOnce', () => { typed.destroy() }, 'typedDestroy')
+</script><script>function subtitleType () {
+  typedJSFn.processSubtitle(["今日事&#44;今日畢","Never put off till tomorrow what you can do today"])
+}
+typedJSFn.run(subtitleType)</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

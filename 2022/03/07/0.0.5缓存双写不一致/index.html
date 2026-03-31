@@ -1,0 +1,192 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>缓存双写不一致 | 喵喵鱼塘</title><meta name="author" content="Foam🍅"><meta name="copyright" content="Foam🍅"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="缓存数据库双写不一致 高并发下缓存与数据库双写不一致解决方案  正常的缓存数据库更新的时候应该是先执行线程1，然后执行线程2  如果线程1卡顿了一下，这时就会造成数据库和缓存不一致的情况线程1把线程2更新的缓存数据给覆盖了  最开始的缓存不一致问题以及解决方案 问题：先修改数据库，再删除缓存，..."><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "缓存双写不一致",
+  "url": "https://foamtomato.github.io/2022/03/07/0.0.5%E7%BC%93%E5%AD%98%E5%8F%8C%E5%86%99%E4%B8%8D%E4%B8%80%E8%87%B4/",
+  "image": "https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg",
+  "datePublished": "2022-03-06T16:00:00.000Z",
+  "dateModified": "2026-03-31T09:53:01.618Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Foam🍅",
+      "url": "https://foamtomato.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://foamtomato.github.io/2022/03/07/0.0.5%E7%BC%93%E5%AD%98%E5%8F%8C%E5%86%99%E4%B8%8D%E4%B8%80%E8%87%B4/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '缓存双写不一致',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">88</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">292</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/Music"><i class="fa-fw /music/"></i><span> 0</span></a></li><li><a class="site-page child" href="/Movie"><i class="fa-fw /movies/"></i><span> 1</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">喵喵鱼塘</span></a><a class="nav-page-title" href="/"><span class="site-name">缓存双写不一致</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/Music"><i class="fa-fw /music/"></i><span> 0</span></a></li><li><a class="site-page child" href="/Movie"><i class="fa-fw /movies/"></i><span> 1</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">缓存双写不一致</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-03-06T16:00:00.000Z" title="发表于 2022-03-07 00:00:00">2022-03-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-31T09:53:01.618Z" title="更新于 2026-03-31 17:53:01">2026-03-31</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="缓存数据库双写不一致"><a href="#缓存数据库双写不一致" class="headerlink" title="缓存数据库双写不一致"></a>缓存数据库双写不一致</h1><blockquote>
+<p>高并发下缓存与数据库双写不一致解决方案</p>
+</blockquote>
+<p>正常的缓存数据库更新的时候应该是先执行线程1，然后执行线程2</p>
+<p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://blog-1316004121.cos.ap-guangzhou.myqcloud.com/blogImages/image-20220307203941385.png" alt="image-20220307203941385"></p>
+<p>如果线程1卡顿了一下，这时就会造成数据库和缓存不一致的情况<code>线程1把线程2更新的缓存数据给覆盖了</code></p>
+<p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://blog-1316004121.cos.ap-guangzhou.myqcloud.com/blogImages/image-20220307204214243.png" alt="image-20220307204214243"></p>
+<h2 id="最开始的缓存不一致问题以及解决方案"><a href="#最开始的缓存不一致问题以及解决方案" class="headerlink" title="最开始的缓存不一致问题以及解决方案"></a>最开始的缓存不一致问题以及解决方案</h2><blockquote>
+<p>问题：先修改数据库，再删除缓存，如果删除缓存失败了，那么会导致数据库中是新数据，缓存中是旧数据，数据出现不一致。</p>
+</blockquote>
+<p>解决思路：<br>　　先删除缓存，再修改数据库，如果删除缓存成功了修改数据库失败了，那么数据库中是旧数据，缓存中是空的，那么数据不会不一致，因为读的时候缓存没有，则读数据库中旧数据，然后更新到缓存中。</p>
+<p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://blog-1316004121.cos.ap-guangzhou.myqcloud.com/blogImages/image-20220307205922621.png" alt="image-20220307205922621"></p>
+<h2 id="2、并发下数据缓存不一致问题分析"><a href="#2、并发下数据缓存不一致问题分析" class="headerlink" title="2、并发下数据缓存不一致问题分析"></a>2、并发下数据缓存不一致问题分析</h2><p>问题：<br>　　第一个请求数据发生变更，先删除了缓存，然后要去修改数据库，此时还没来得及去修改；<br>　　第二个请求过来去读缓存，发现缓存空了，去查询数据库，查到了修改前的旧数据，放到了缓存中；<br>　　第三个请求读取缓存中的数据 (此时第一个请求已经完成了数据库修改的操作)。<br>　　完了，数据库和缓存中的数据不一样了。。。。</p>
+<p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://blog-1316004121.cos.ap-guangzhou.myqcloud.com/blogImages/image-20220307210140337.png" alt="image-20220307210140337"></p>
+<p>分析原因：</p>
+<p>只有在对同一条数据并发读写的时候，才可能会出现这种问题。其实如果说你的并发量很低的话，特别是读并发很低，每天访问量就1万次，那么很少的情况下，会出现刚才描述的那种不一致的场景;但如果每天的是上亿的流量，每秒并发读是几万，每秒只要有数据更新的请求，就可能会出现上述的数据库+缓存不一致的情况。</p>
+<h3 id="内存队列"><a href="#内存队列" class="headerlink" title="内存队列"></a>内存队列</h3><p>数据库的缓存更新与读取操作进行串行化，一个队列对应一个工作线程，每个工作线程串行拿到对应的操作，然后一条一条的执行。</p>
+<ol>
+<li>首先我们的项目里维护一组线程池和内存队列。<br>  　　2. 更新数据的时候，根据数据的唯一标识将请求路由到一个jvm队列中，去更新数据库,然后请求结束。<br>  　　3. 读取数据的时候，先查缓存，如果发现数据不在缓存中，那么将根据唯一标识路由之后，也发送同一个jvm内部的队列中，重新读取数据库后更新缓存,最后请求结束。</li>
+</ol>
+<p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://blog-1316004121.cos.ap-guangzhou.myqcloud.com/blogImages/1363214-20190929191217957-1916614649.png" alt="img"></p>
+<p>缺点：</p>
+<p>1.实现起来麻烦，不同的key可能需要搞不同的队列</p>
+<p>2.如果系统挂了，还得还原这些数据，如果出现了异常，还会造成脏数据</p>
+<h3 id="延时双删"><a href="#延时双删" class="headerlink" title="延时双删"></a>延时双删</h3><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://blog-1316004121.cos.ap-guangzhou.myqcloud.com/blogImages/image-20220307214115094.png" alt="image-20220307214115094"></p>
+<p>延时双删方案执行步骤<br>1.删除redis<br>2.更新数据库<br>3.延时50毫秒<br>4.删除redis</p>
+<ul>
+<li>问题一：为何要延时50毫秒？<br>这是为了我们在第二次删除redis之前能完成数据库的更新操作。<br>假象一下，如果没有第三步操作时，有很大概率，在两次删除redis操作执行完毕之后，数据库的数据还没有更新，此时若有请求访问数据，便会出现我们一开始提到的那个问题。</li>
+<li>问题二: 为何要两次删除redis?<br>如果我们没有第二次删除操作，此时有请求访问数据，有可能是访问的之前未做修改的redis数据，删除操作执行后，redis为空，有请求进来时，便会去访问数据库，此时数据库中的数据已是更新后的数据，保证了数据的一致性。</li>
+</ul>
+<p>缺点：</p>
+<p>1.没有从根本上面去解决问题，如果更新缓存时间超过50ms，那么还是失败的，如果要一直保证休眠时间大于更新时间，这样会不会造成阻塞</p>
+<p>2.如果一个接口请求有限制时间，这休眠时间会影响用户体验，影响接口的响应速度</p>
+<h3 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h3><p>如果加分布式锁可以直接保证每个线程的执行顺序，也是一种串行操作</p>
+<p>这个还是比较推荐使用的，比内存串行实现简单，而且稳定</p>
+<p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://blog-1316004121.cos.ap-guangzhou.myqcloud.com/blogImages/image-20220307215417929.png" alt="image-20220307215417929"></p>
+<p>缺点：</p>
+<p>1.分布式锁会有性能问题，会导致并发量很低（<code>加锁永远不是最优的方案</code>）</p>
+<h3 id="读写锁"><a href="#读写锁" class="headerlink" title="读写锁"></a>读写锁</h3><p>redisson中间里面实现了读写锁，读锁与读锁之间是不会互斥的和没加锁一样，写锁与写锁会互斥</p>
+<p>一般都是读多写少</p>
+<p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://blog-1316004121.cos.ap-guangzhou.myqcloud.com/blogImages/image-20220307220011598.png" alt="image-20220307220011598"></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>一般来说，就是如果你的系统<strong>不是严格要求</strong>缓存+数据库必须<strong>一致性</strong>的话，缓存可以稍微的跟数据库偶尔有不一致的情况，那最好<strong>不要</strong>上述的<strong>串行化</strong>的这个方案，因为读请求和写请求串行化，串到一个内存队列里去，这样是可以保证一定不会出现不一致的情况。但是，串行化之后，就会导致系统的<strong>吞吐量会大幅度的降低</strong>，你就需要用比正常情况下多几倍的机器去支撑线上的一个请求。</p>
+<p>以上是本人对缓存数据库不一致情况的了解，本人能力有限，如有问题还望包含，也欢迎指正。谢谢！</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://foamtomato.github.io">Foam🍅</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://foamtomato.github.io/2022/03/07/0.0.5%E7%BC%93%E5%AD%98%E5%8F%8C%E5%86%99%E4%B8%8D%E4%B8%80%E8%87%B4/">https://foamtomato.github.io/2022/03/07/0.0.5%E7%BC%93%E5%AD%98%E5%8F%8C%E5%86%99%E4%B8%8D%E4%B8%80%E8%87%B4/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://foamtomato.github.io" target="_blank">喵喵鱼塘</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><a class="post-meta__tags" href="/tags/redis/">redis</a><a class="post-meta__tags" href="/tags/%E7%BC%93%E5%AD%98/">缓存</a></div><div class="post-share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2022/03/07/0.1.7redis%E5%AD%98%E5%82%A8Data-truncation-Incorrect-datetime-value/" title="redis存储Data truncation: Incorrect datetime value"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">redis存储Data truncation: Incorrect datetime value</div></div><div class="info-2"><div class="info-item-1">最近在编写项目时，用redis存储结果一直报转换异常对此我有了以下思路1.在mysql进行格式转换2.在java先转换3.存json之前就进行格式转换 但是以上方法都不行，因为数据需要的是date类型，如果走转换又过慢有大佬提了一下使用序列化解决，我就尝试了一下，还真可以,以下是我编写思路1.首先需要序列化的类继承Serializable接口2.编写序列化工具类 123456789101112131415161718192021222324252627282930313233343536package com.tiantai.policy.utils;import java.io.*;public class SerializeUtil &#123;    // 序列化    public static byte[] serialize(Object object) &#123;        ObjectOutputStream oos = null;        ByteArrayOutputStream baos = null;        byte[] bytes =...</div></div></div></a><a class="pagination-related" href="/2022/03/02/0.0.8%E4%BD%BF%E7%94%A8redis%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" title="使用redis实现分布式锁"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">使用redis实现分布式锁</div></div><div class="info-2"><div class="info-item-1"> Java中提供了种类丰富的锁，每种锁因其特性的不同，在适当的场景下合理选择能展现非常高的效率  分布式锁一般有三种实现方式：数据库乐观锁，Redis分布式锁，Zookeeper分布式锁 本篇博客主要详细介绍redis分布式锁的进化，进化所解决的场景问题 可靠性首先，为了确保分布式锁的可用性，我们需要确保锁能同时满足以下四个条件  互斥性:在任意时刻，只有一个客户端能持有锁。 不会发生死锁:即使有一个客户端在持有锁的期间崩溃而没有主动解锁，也能保证后续其他客户端能加锁。 具有容错性:只要大部分的Redis节点正常运行，客户端就可以加锁和解锁。 解铃还须系铃人:加锁和解锁必须是同一个客户端，客户端自己不能把别人加的锁给解了。  实现原理在单机下可以用synchronized同步代码块加锁 123456789101112131415@Autowiredprivate StringRedisTemplate redisTemplate;@Testpublic void deductStock()&#123;    synchronized (this)&#123;        int...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2022/05/06/0.2.1RedisTemplate%E7%BB%9F%E4%B8%80%E9%9B%86%E6%88%90/" title="RedisTemplate统一集成"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-06</div><div class="info-item-2">RedisTemplate统一集成</div></div><div class="info-2"><div class="info-item-1">1.配置redis-config123456789101112131415161718192021222324&lt;!-- Jedis 连接池配置 --&gt;&lt;bean id=&quot;jedisPoolConfig&quot; class=&quot;redis.clients.jedis.JedisPoolConfig&quot;&gt;   &lt;property name=&quot;maxIdle&quot; value=&quot;$&#123;redis.maxIdle&#125;&quot;&gt;&lt;/property&gt;   &lt;property name=&quot;minEvictableIdleTimeMillis&quot; value=&quot;$&#123;redis.minEvictableIdleTimeMillis&#125;&quot;&gt;&lt;/property&gt;   &lt;property name=&quot;numTestsPerEvictionRun&quot; value=&quot;$...</div></div></div></a><a class="pagination-related" href="/2022/02/23/0.1.8redis%E9%94%81/" title="redis锁"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="info-item-2">redis锁</div></div><div class="info-2"><div class="info-item-1">暂时没时间整细节，给个粗略的记录一下 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071package com.util.qunar;import com.service.qunar.FQunarSearchService;import com.service.zl.ValidationCabinAndPrice_QNR;import org.apache.log4j.Logger;import org.redisson.Redisson;import org.redisson.api.RLock;import org.redisson.api.RedissonClient;import org.redisson.config.Config;import org.springframework.beans.factory.InitializingBean;import...</div></div></div></a><a class="pagination-related" href="/2022/03/07/0.1.7redis%E5%AD%98%E5%82%A8Data-truncation-Incorrect-datetime-value/" title="redis存储Data truncation: Incorrect datetime value"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-07</div><div class="info-item-2">redis存储Data truncation: Incorrect datetime value</div></div><div class="info-2"><div class="info-item-1">最近在编写项目时，用redis存储结果一直报转换异常对此我有了以下思路1.在mysql进行格式转换2.在java先转换3.存json之前就进行格式转换 但是以上方法都不行，因为数据需要的是date类型，如果走转换又过慢有大佬提了一下使用序列化解决，我就尝试了一下，还真可以,以下是我编写思路1.首先需要序列化的类继承Serializable接口2.编写序列化工具类 123456789101112131415161718192021222324252627282930313233343536package com.tiantai.policy.utils;import java.io.*;public class SerializeUtil &#123;    // 序列化    public static byte[] serialize(Object object) &#123;        ObjectOutputStream oos = null;        ByteArrayOutputStream baos = null;        byte[] bytes =...</div></div></div></a><a class="pagination-related" href="/2022/04/10/0.0.4%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E6%80%9D%E6%83%B3/" title="分库分表思想"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-10</div><div class="info-item-2">分库分表思想</div></div><div class="info-2"><div class="info-item-1"> 随着单库中的数据量越来越大、数据库的查询QPS越来越高，相应的，对数据库的读写所需要的时间也越来越多。数据库的读写性能可能会成为业务发展的瓶颈。对应的，就需要做数据库性能方面的优化。  场景一：如果数据库的查询QPS【连接数】过高，就需要考虑拆库，通过分库来分担单个数据库的连接压力。比如，如果查询QPS为3500，假设单库可以支撑1000个QPS的话，那么就可以考虑拆分成4个库，来分散查询连接压力。 场景二：如果单表数据量过大，就需要考虑分表，当数据量超过一定量级后，无论是对于数据查询还是数据更新，在经过索引优化等纯数据库层面的传统优化手段之后，还是可能存在性能问题。这是量变产生了质变，这时候就需要去换个思路来解决问题，比如：从数据生产源头、数据处理源头来解决问题，既然数据量很大，那我们就来个分而治之，化整为零。这就产生了分表，把数据按照一定的规则拆分成多张表，来解决单表环境下无法解决的存取性能问题。 场景三：如果单数据库宕机，可能所有数据都会丢失，就需要考虑数据拆分  单库部署情况下，如果数据库宕机，那么故障影响就是100%，而且恢复可能耗时很长。 如果我们拆分成2个库，分别...</div></div></div></a><a class="pagination-related" href="/2022/03/02/0.0.8%E4%BD%BF%E7%94%A8redis%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" title="使用redis实现分布式锁"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-02</div><div class="info-item-2">使用redis实现分布式锁</div></div><div class="info-2"><div class="info-item-1"> Java中提供了种类丰富的锁，每种锁因其特性的不同，在适当的场景下合理选择能展现非常高的效率  分布式锁一般有三种实现方式：数据库乐观锁，Redis分布式锁，Zookeeper分布式锁 本篇博客主要详细介绍redis分布式锁的进化，进化所解决的场景问题 可靠性首先，为了确保分布式锁的可用性，我们需要确保锁能同时满足以下四个条件  互斥性:在任意时刻，只有一个客户端能持有锁。 不会发生死锁:即使有一个客户端在持有锁的期间崩溃而没有主动解锁，也能保证后续其他客户端能加锁。 具有容错性:只要大部分的Redis节点正常运行，客户端就可以加锁和解锁。 解铃还须系铃人:加锁和解锁必须是同一个客户端，客户端自己不能把别人加的锁给解了。  实现原理在单机下可以用synchronized同步代码块加锁 123456789101112131415@Autowiredprivate StringRedisTemplate redisTemplate;@Testpublic void deductStock()&#123;    synchronized (this)&#123;        int...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Foam🍅</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">88</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">292</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/FoamTomato" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8F%8C%E5%86%99%E4%B8%8D%E4%B8%80%E8%87%B4"><span class="toc-number">1.</span> <span class="toc-text">缓存数据库双写不一致</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%BC%80%E5%A7%8B%E7%9A%84%E7%BC%93%E5%AD%98%E4%B8%8D%E4%B8%80%E8%87%B4%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">1.1.</span> <span class="toc-text">最开始的缓存不一致问题以及解决方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E5%B9%B6%E5%8F%91%E4%B8%8B%E6%95%B0%E6%8D%AE%E7%BC%93%E5%AD%98%E4%B8%8D%E4%B8%80%E8%87%B4%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="toc-number">1.2.</span> <span class="toc-text">2、并发下数据缓存不一致问题分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E9%98%9F%E5%88%97"><span class="toc-number">1.2.1.</span> <span class="toc-text">内存队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%B6%E6%97%B6%E5%8F%8C%E5%88%A0"><span class="toc-number">1.2.2.</span> <span class="toc-text">延时双删</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="toc-number">1.2.3.</span> <span class="toc-text">分布式锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BB%E5%86%99%E9%94%81"><span class="toc-number">1.2.4.</span> <span class="toc-text">读写锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.2.5.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/08/25/0.6.2-Netty%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90%E4%B8%8E%E6%97%B6%E9%97%B4%E8%BD%AE%E8%AF%A6%E8%A7%A3/" title="Netty深度剖析与时间轮详解：构建高性能网络应用"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Netty深度剖析与时间轮详解：构建高性能网络应用"/></a><div class="content"><a class="title" href="/2025/08/25/0.6.2-Netty%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90%E4%B8%8E%E6%97%B6%E9%97%B4%E8%BD%AE%E8%AF%A6%E8%A7%A3/" title="Netty深度剖析与时间轮详解：构建高性能网络应用">Netty深度剖析与时间轮详解：构建高性能网络应用</a><time datetime="2025-08-24T16:00:00.000Z" title="发表于 2025-08-25 00:00:00">2025-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/20/0.6.1-MySQL%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%85%A8%E6%94%BB%E7%95%A5/" title="MySQL性能优化全攻略：从入门到精通"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL性能优化全攻略：从入门到精通"/></a><div class="content"><a class="title" href="/2025/08/20/0.6.1-MySQL%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%85%A8%E6%94%BB%E7%95%A5/" title="MySQL性能优化全攻略：从入门到精通">MySQL性能优化全攻略：从入门到精通</a><time datetime="2025-08-19T16:00:00.000Z" title="发表于 2025-08-20 00:00:00">2025-08-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/15/0.6.0-LLM%E6%95%B0%E6%8D%AE%E6%8F%90%E5%8F%96%E4%B8%8E%E5%90%91%E9%87%8F%E5%AD%98%E5%82%A8%E6%9E%B6%E6%9E%84/" title="LLM数据提取与向量存储架构：构建智能知识库系统"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LLM数据提取与向量存储架构：构建智能知识库系统"/></a><div class="content"><a class="title" href="/2025/08/15/0.6.0-LLM%E6%95%B0%E6%8D%AE%E6%8F%90%E5%8F%96%E4%B8%8E%E5%90%91%E9%87%8F%E5%AD%98%E5%82%A8%E6%9E%B6%E6%9E%84/" title="LLM数据提取与向量存储架构：构建智能知识库系统">LLM数据提取与向量存储架构：构建智能知识库系统</a><time datetime="2025-08-14T16:00:00.000Z" title="发表于 2025-08-15 00:00:00">2025-08-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/10/0.5.9-%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8BLLM%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/" title="大语言模型LLM完全指南：从基础概念到实际应用"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="大语言模型LLM完全指南：从基础概念到实际应用"/></a><div class="content"><a class="title" href="/2025/08/10/0.5.9-%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8BLLM%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/" title="大语言模型LLM完全指南：从基础概念到实际应用">大语言模型LLM完全指南：从基础概念到实际应用</a><time datetime="2025-08-09T16:00:00.000Z" title="发表于 2025-08-10 00:00:00">2025-08-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/08/06/0.5.8-MinIO%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E5%B1%80%E5%9F%9F%E7%BD%91%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/" title="MinIO搭建本地局域网文件管理系统"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MinIO搭建本地局域网文件管理系统"/></a><div class="content"><a class="title" href="/2025/08/06/0.5.8-MinIO%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E5%B1%80%E5%9F%9F%E7%BD%91%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/" title="MinIO搭建本地局域网文件管理系统">MinIO搭建本地局域网文件管理系统</a><time datetime="2025-08-05T16:00:00.000Z" title="发表于 2025-08-06 00:00:00">2025-08-06</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By Foam🍅</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><script src="/js/tw_cn.js?v=5.5.4"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
