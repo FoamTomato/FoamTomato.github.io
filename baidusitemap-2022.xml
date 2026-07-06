@@ -1,147 +1,147 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://xiaohang.site/2022/12/17/0.3.6-%E9%A9%BC%E5%B3%B0%E5%91%BD%E5%90%8D%E8%BD%AC%E6%8D%A2%E5%B7%A5%E5%85%B7%E7%B1%BB/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/engineering/camel-case-converter/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/10/16/0.3.4-%E5%AF%B9%E8%B1%A1%E8%BD%ACMAP%E5%B7%A5%E5%85%B7%E7%B1%BB/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/notes/idea-comment-templates/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/10/16/0.3.5-IDEA%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E9%87%8A%E6%A8%A1%E7%89%88/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/engineering/object-to-map-utility/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/10/14/0.3.3-JVM%E7%9A%84%E7%BB%84%E6%88%90/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/performance/jvm-architecture/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/08/22/0.3.2-openFeign%E5%BC%95%E5%85%A5%E5%A4%B1%E8%B4%A5/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/architecture/openfeign-import-failure/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/08/17/0.3.1-maven%E6%95%B0%E6%8D%AE%E6%BA%90/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/notes/maven-mirror-config/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/07/30/0.2.9-%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/engineering/factory-pattern/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/07/30/0.3.0-%E7%BD%91%E9%A1%B5%E6%B7%BB%E5%8A%A0L2D%E7%8C%AB/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/notes/live2d-cat-widget/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/07/28/0.2.8-mac%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/notes/mac-software-installation/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/06/02/0.2.7-IDEA%E8%A7%A3%E5%86%B3vue%E9%A1%B9%E7%9B%AE%E5%8D%A1%E6%AD%BB/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/notes/autowired-not-working/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/06/02/0.2.6-%E5%85%B3%E4%BA%8E-Autowired%E6%B3%A8%E8%A7%A3%E5%A4%B1%E6%95%88%E9%97%AE%E9%A2%98/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/notes/idea-vue-project-freeze-fix/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/05/28/0.2.5-%E5%AE%9E%E6%97%B6%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/notes/realtime-issue-troubleshooting/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/05/28/0.2.4-AOP%E8%A7%A3%E5%86%B3%E5%86%85%E9%83%A8%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8%E4%B8%8D%E7%94%9F%E6%95%88%E9%97%AE%E9%A2%98/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/engineering/aop-self-invocation-fix/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/05/21/0.2.3-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/engineering/prototype-pattern/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/05/09/0.2.2IDEA%E6%8F%92%E4%BB%B6/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/notes/idea-plugins/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/05/06/0.2.1RedisTemplate%E7%BB%9F%E4%B8%80%E9%9B%86%E6%88%90/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/performance/idea-memory-tuning/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/05/06/0.2.0IDEA%E5%86%85%E5%AD%98%E8%B0%83%E4%BC%98/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/database/redistemplate-unified-integration/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/05/01/0.0.3%E5%88%86%E6%AE%B5%E6%89%A7%E8%A1%8C/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/engineering/batch-segmented-execution/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/05/01/0.1.0%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%B7%A5%E5%85%B7%E7%B1%BB/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/engineering/thread-pool-utility/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/04/25/0.1.2aop%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/engineering/spring-aop-basics/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/04/23/0.1.6mysql%E5%88%9B%E5%BB%BA%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/database/mysql-scheduled-events/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/04/22/0.1.1%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/engineering/java-custom-annotations/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/04/17/0.0.9%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E9%97%B4%E4%BB%B6/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/database/database-middleware-overview/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/04/17/0.1.5mycat%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/database/mycat-introduction/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/04/10/0.0.4%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E6%80%9D%E6%83%B3/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/database/database-sharding-concepts/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/04/10/0.1.9ShardingJDBC%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/database/sharding-jdbc-introduction/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/04/04/0.0.2%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/notes/scheduled-tasks-summary/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/04/04/0.1.3ip%E5%9C%B0%E5%9D%80%E7%99%BD%E5%90%8D%E5%8D%95%E6%A0%A1%E9%AA%8C/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/notes/ip-whitelist-validation/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/04/04/0.1.4java%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/notes/java-gzip-file-compression/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/03/07/0.1.7redis%E5%AD%98%E5%82%A8Data-truncation-Incorrect-datetime-value/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/database/cache-db-double-write-inconsistency/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/03/07/0.0.5%E7%BC%93%E5%AD%98%E5%8F%8C%E5%86%99%E4%B8%8D%E4%B8%80%E8%87%B4/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/database/redis-data-truncation-incorrect-datetime/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/03/02/0.0.8%E4%BD%BF%E7%94%A8redis%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/database/redis-distributed-lock/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/02/23/0.1.8redis%E9%94%81/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/database/redis-lock-notes/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/02/16/0.0.7%E8%A7%A3%E5%86%B3%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%94%AE%E7%9B%98%E4%B8%8A%E7%A7%BB/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/frontend/wechat-miniprogram-keyboard-push-up/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/02/13/0.0.1%E5%88%9D%E6%8E%A2xxljob/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/architecture/xxl-job-getting-started/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
   <url>
-    <loc>https://xiaohang.site/2022/01/08/0.0.6%E7%AE%80%E5%8D%95%E5%90%90%E6%A7%BD%E4%B8%80%E4%B8%8Bxml/</loc>
-    <lastmod>2026-07-01</lastmod>
+    <loc>https://xiaohang.site/notes/thoughts-on-xml/</loc>
+    <lastmod>2026-07-06</lastmod>
   </url>
 </urlset>

@@ -1,0 +1,166 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>关于@Autowired注解失效问题 | 喵喵鱼塘</title><meta name="author" content="Foam🍅"><meta name="copyright" content="Foam🍅"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="需求：在旧的SSM项目中，经常会出现找不到Bean的情况，然后会报红色下划线"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "关于@Autowired注解失效问题",
+  "url": "https://xiaohang.site/notes/autowired-not-working/",
+  "image": "https://xiaohang.site/img/covers/pond-05-koi.svg",
+  "datePublished": "2022-06-01T16:00:00.000Z",
+  "dateModified": "2026-07-06T02:38:07.870Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Foam🍅",
+      "url": "https://xiaohang.site"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.svg"><link rel="canonical" href="https://xiaohang.site/notes/autowired-not-working/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="En5KpJx9cywrtPBN7zCvCtrFH6P_uSuvLHGNS0rkXSQ"/><meta name="baidu-site-verification" content="codeva-I4HbGRCdjO"/><meta name="msvalidate.01" content="222336D79C3F67FD91808C8CB678BD4A"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '关于@Autowired注解失效问题',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><script src="https://proxy.geotrax.work/tracker.js?site=xiaohang.site" async></script><link rel="stylesheet" href="/css/custom-archive.css?v=f48447fe"><link rel="stylesheet" href="/css/aurora-bg.css?v=b9f7e167"><link rel="stylesheet" href="/css/tagcloud.css?v=e6ff33e0"><meta name="generator" content="Hexo 8.1.1"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://avatars.githubusercontent.com/u/34734406?v=4" onerror="this.onerror=null;this.src='/img/covers/pond-07-empty.svg'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">88</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">292</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/covers/pond-05-koi.svg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">喵喵鱼塘</span></a><a class="nav-page-title" href="/"><span class="site-name">关于@Autowired注解失效问题</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">关于@Autowired注解失效问题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-06-01T16:00:00.000Z" title="发表于 2022-06-02 00:00:00">2022-06-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-07-06T02:38:07.870Z" title="更新于 2026-07-06 10:38:07">2026-07-06</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/notes/">技术随笔</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="关于-Autowired注解扫描不到"><a href="#关于-Autowired注解扫描不到" class="headerlink" title="关于@Autowired注解扫描不到"></a>关于@Autowired注解扫描不到</h1><h2 id="expected-at-least-1-bean-which-qualifies-as-autowire-candidate"><a href="#expected-at-least-1-bean-which-qualifies-as-autowire-candidate" class="headerlink" title="expected at least 1 bean which qualifies as autowire candidate"></a>expected at least 1 bean which qualifies as autowire candidate</h2><p>需求：在旧的SSM项目中，经常会出现找不到Bean的情况，然后会报红色下划线<br>解决方式：检查配置，检查注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> CommonService commonservice;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-检查配置文件"><a href="#1-检查配置文件" class="headerlink" title="1.检查配置文件"></a>1.检查配置文件</h2><p>检查spring配置文件是否有去扫描包（如果少了这一步就报错找不到Bean）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 自动扫描 --&gt;</span><br><span class="line">&lt;context:component-scan base-<span class="keyword">package</span>=<span class="string">&quot;com.foam&quot;</span>/&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-是否有注解"><a href="#2-是否有注解" class="headerlink" title="2.是否有注解"></a>2.是否有注解</h2><p>比如如service，repository，component，controller，Mapper等。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">CompanyMapper</span>&#123;</span><br><span class="line">……</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Service</span>&#123;</span><br><span class="line">……</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-是否有配置监听器"><a href="#3-是否有配置监听器" class="headerlink" title="3.是否有配置监听器"></a>3.是否有配置监听器</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 上下文配置文件 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">context-param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:config/spring/spring-*.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">context-param</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">&lt;!-- 监听器 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">listener</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">listener-class</span>&gt;</span>org.springframework.web.context.ContextLoaderListener<span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">listener</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.codeleading.com/article/48301785999/">springmvc流程分析，读取web.xml配置被扫描bean - 代码先锋</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/xz842913787/article/details/107374583/">expected at least 1 bean which qualifies as autowire candidate(Spring Bean 无法注入)_熊猫同学呀的博客-CSDN博客</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bbsmax.com/A/LPdor2k253/">SpringMVC自动扫描@Controller注解的bean</a></li>
+<li><a target="_blank" rel="noopener" href="https://baijiahao.baidu.com/s?id=1708900834172989079&wfr=spider&for=pc">关于@Autowired的这些新姿势，你学会了？</a></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://xiaohang.site">Foam🍅</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://xiaohang.site/notes/autowired-not-working/">https://xiaohang.site/notes/autowired-not-working/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://xiaohang.site" target="_blank">喵喵鱼塘</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%97%AE%E9%A2%98%E8%A7%A3%E6%9E%90/">问题解析</a></div><div class="post-share"><div class="social-share" data-image="/img/covers/pond-05-koi.svg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/notes/idea-vue-project-freeze-fix/" title="IDEA解决vue项目卡死"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/covers/pond-01-fish.svg" onerror="onerror=null;src='/img/covers/pond-07-empty.svg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">IDEA解决vue项目卡死</div></div><div class="info-2"><div class="info-item-1">IDEA解决vue项目卡死问题原因在加载vue项目的时候，把node_modules的包一起进行了加载 idea是基于index来实现快速加载项目配置的,故所有在idea打开目录下的文件都会被索引,包括vue项目运行时产生的node_modules文件夹里的js等文件 解决方式  在Ignored Files and Folders中加入node_modules再重启一下idea就好了 </div></div></div></a><a class="pagination-related" href="/engineering/aop-self-invocation-fix/" title="AOP解决内部方法调用不生效问题"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/covers/pond-06-mountain.svg" onerror="onerror=null;src='/img/covers/pond-07-empty.svg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">AOP解决内部方法调用不生效问题</div></div><div class="info-2"><div class="info-item-1"> 描述：在使用AOP切面的时候Controller层可以正常切入进去，但是Service层内部方法调用切入不进去  大致情况就算打注解放methodB上也不会进切面，Aop只支持外部调用 123456789101112131415161718import org.springframework.stereotype.Service;/** * 目标对象类 * @author Gufung */@Servicepublic class TestAopService &#123;    public void methodA() &#123;        System.out.println(&quot;method A run&quot;);        //内部调用方法B时AOP的增强处理方法不会执行        methodB();    &#125;        public void methodB() &#123;        System.out.println(&quot;method B run&quot;);    &#125;&#125;  解决方式1...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/notes/realtime-issue-troubleshooting/" title="实时问题解决"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/covers/pond-02-ripple.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-28</div><div class="info-item-2">实时问题解决</div></div><div class="info-2"><div class="info-item-1">实战bug解决1.mybatisplus导致url无法访问原因：因为在application配置了componentScan去扫描了mybatisplus的mapper，导致其他的未扫描到解决方式：在自动生成的mapper上加上@mapper注解去进行组件扫描 2.druid多数据源切换不成功，报错找不到数据库原因：boot自带的数据库配置会去扫描默认数据源，而druid的路径不一样解决方式：编写一个默认的数据源 3.mybatisplus生成不了代码原因：freemarker模板引擎不可用解决方式：切换为velocity的模板引擎 4.JobThread Exception:java.lang.reflect.InvocationTargetException原因：这个是xxljob定时注解导致的，和redis的缓存注解冲突了解决方式：把redis的@cacheable注解去除掉就行了 5.驱动程序无法通过使用安全套接字层(SSL)加密与 SQL Server 建立安全连接。原因：sqlserver在1.8之前的版本安全验证不一样解决方法：把C:\Program Files\J...</div></div></div></a><a class="pagination-related" href="/notes/idea-vue-project-freeze-fix/" title="IDEA解决vue项目卡死"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/covers/pond-01-fish.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-06-02</div><div class="info-item-2">IDEA解决vue项目卡死</div></div><div class="info-2"><div class="info-item-1">IDEA解决vue项目卡死问题原因在加载vue项目的时候，把node_modules的包一起进行了加载 idea是基于index来实现快速加载项目配置的,故所有在idea打开目录下的文件都会被索引,包括vue项目运行时产生的node_modules文件夹里的js等文件 解决方式  在Ignored Files and Folders中加入node_modules再重启一下idea就好了 </div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://avatars.githubusercontent.com/u/34734406?v=4" onerror="this.onerror=null;this.src='/img/covers/pond-07-empty.svg'" alt="avatar"/></div><div class="author-info-name">Foam🍅</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">88</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">292</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/FoamTomato"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/FoamTomato" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">👋 欢迎来到喵喵鱼塘!这里记录 Java 后端工程实践、AI 与大模型应用开发的实战笔记与系统化教程。愿你有所收获 🍅</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E-Autowired%E6%B3%A8%E8%A7%A3%E6%89%AB%E6%8F%8F%E4%B8%8D%E5%88%B0"><span class="toc-number">1.</span> <span class="toc-text">关于@Autowired注解扫描不到</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#expected-at-least-1-bean-which-qualifies-as-autowire-candidate"><span class="toc-number">1.1.</span> <span class="toc-text">expected at least 1 bean which qualifies as autowire candidate</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%A3%80%E6%9F%A5%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.</span> <span class="toc-text">1.检查配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%98%AF%E5%90%A6%E6%9C%89%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.3.</span> <span class="toc-text">2.是否有注解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%98%AF%E5%90%A6%E6%9C%89%E9%85%8D%E7%BD%AE%E7%9B%91%E5%90%AC%E5%99%A8"><span class="toc-number">1.4.</span> <span class="toc-text">3.是否有配置监听器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-number">1.5.</span> <span class="toc-text">参考文章</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/performance/netty-timing-wheel-deep-dive/" title="Netty深度剖析与时间轮详解：构建高性能网络应用"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/covers/pond-04-reeds.svg" onerror="this.onerror=null;this.src='/img/covers/pond-07-empty.svg'" alt="Netty深度剖析与时间轮详解：构建高性能网络应用"/></a><div class="content"><a class="title" href="/performance/netty-timing-wheel-deep-dive/" title="Netty深度剖析与时间轮详解：构建高性能网络应用">Netty深度剖析与时间轮详解：构建高性能网络应用</a><time datetime="2025-08-24T16:00:00.000Z" title="发表于 2025-08-25 00:00:00">2025-08-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/performance/mysql-performance-tuning/" title="MySQL性能优化全攻略：从入门到精通"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/covers/pond-01-fish.svg" onerror="this.onerror=null;this.src='/img/covers/pond-07-empty.svg'" alt="MySQL性能优化全攻略：从入门到精通"/></a><div class="content"><a class="title" href="/performance/mysql-performance-tuning/" title="MySQL性能优化全攻略：从入门到精通">MySQL性能优化全攻略：从入门到精通</a><time datetime="2025-08-19T16:00:00.000Z" title="发表于 2025-08-20 00:00:00">2025-08-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/ai-llm/llm-data-extraction-vector-storage/" title="LLM数据提取与向量存储架构：构建智能知识库系统"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/covers/pond-05-koi.svg" onerror="this.onerror=null;this.src='/img/covers/pond-07-empty.svg'" alt="LLM数据提取与向量存储架构：构建智能知识库系统"/></a><div class="content"><a class="title" href="/ai-llm/llm-data-extraction-vector-storage/" title="LLM数据提取与向量存储架构：构建智能知识库系统">LLM数据提取与向量存储架构：构建智能知识库系统</a><time datetime="2025-08-14T16:00:00.000Z" title="发表于 2025-08-15 00:00:00">2025-08-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/ai-llm/llm-complete-guide/" title="大语言模型LLM完全指南：从基础概念到实际应用"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/covers/pond-02-ripple.svg" onerror="this.onerror=null;this.src='/img/covers/pond-07-empty.svg'" alt="大语言模型LLM完全指南：从基础概念到实际应用"/></a><div class="content"><a class="title" href="/ai-llm/llm-complete-guide/" title="大语言模型LLM完全指南：从基础概念到实际应用">大语言模型LLM完全指南：从基础概念到实际应用</a><time datetime="2025-08-09T16:00:00.000Z" title="发表于 2025-08-10 00:00:00">2025-08-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/architecture/minio-lan-file-server/" title="MinIO搭建本地局域网文件管理系统"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/covers/pond-04-reeds.svg" onerror="this.onerror=null;this.src='/img/covers/pond-07-empty.svg'" alt="MinIO搭建本地局域网文件管理系统"/></a><div class="content"><a class="title" href="/architecture/minio-lan-file-server/" title="MinIO搭建本地局域网文件管理系统">MinIO搭建本地局域网文件管理系统</a><time datetime="2025-08-05T16:00:00.000Z" title="发表于 2025-08-06 00:00:00">2025-08-06</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By Foam🍅</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><div class="js-pjax"></div><div id="aurora-bg" aria-hidden="true"><div class="smoke-3"></div></div><script src="/js/pond.js?v=284dfc4e" defer></script><script src="/js/interactions.js?v=31fdc57a" defer></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
