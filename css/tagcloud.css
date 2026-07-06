@@ -1,0 +1,140 @@
+/* 标签词云 —— 配合 scripts/tagcloud.js 的 {% tagcloud %} 输出。
+   纯青绿水墨色系, 字号/颜色/权重由 tag 插件按频率内联注入,
+   本文件只负责布局、间距、悬浮态与入场动画。
+
+   设计要点(避免 opacity 冲突):
+   - 频率"淡浅"完全由 color 的明度表达(高频深、低频浅), 不用 opacity。
+   - opacity 只归入场动画独占, 从 0 -> 1, 互不打架。 */
+
+/* ============================================================
+ * 词云布局 —— 编辑式分层设计(ui-ux-pro-max 规范)
+ * 设计要点:
+ *  · 顶部充足呼吸间距(白卡内上 padding 拉大, 离导航更远)
+ *  · 词云区更高更有存在感(min-height + 垂直居中 + 拉开行距)
+ *  · 基线对齐(baseline)= 杂志式文字排版, 不是无序居中平铺
+ *  · hover 只动 transform/color, 不引起布局位移(稳定 hover)
+ *  · 角标精致小上标; 高频标签下方一道细墨线做视觉锚点
+ * ============================================================ */
+
+/* 词云页白卡: 高度贴合内容, 但给一个从容的最小高度 + 大内边距,
+   让词云在卡片里舒展呼吸, 顶部离导航留足空间。
+   白卡 = .layout > div:first-child(#page)。作用域限定词云页。 */
+.page:has(.tagcloud-wrap) #page {
+  height: -moz-fit-content !important;
+  height: fit-content !important;
+  min-height: 0 !important;
+  padding: 3.5rem 3rem !important;   /* 上下边距一致(各 3.5rem), 左右 3rem */
+}
+/* 内容区顶部间距统一由 aurora-bg.css 管理(四子页一致 4.5rem) */
+
+.tagcloud-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;      /* 基线对齐: 大小字沿文字基线排, 编辑式排版感 */
+  align-content: center;
+  justify-content: center;
+  gap: 1.1em 1.1em;           /* 行距/列距: 拉开节奏, 更疏朗 */
+  min-height: 380px;          /* 加大词云区高度, 更挺拔更有存在感 */
+  max-width: 900px;
+  margin: 0.5rem auto;
+  padding: 0.5rem;
+  line-height: 1.3;
+}
+
+.tagcloud-item {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  text-decoration: none;
+  border: 0;
+  padding-bottom: 0.08em;     /* 给下方墨线留位 */
+  cursor: pointer;
+  /* 字号/颜色/font-weight 由内联 style 提供; opacity 交给下面的入场动画 */
+  transition: transform .24s cubic-bezier(0.16,1,0.3,1), color .24s ease;
+  will-change: transform;
+  opacity: 0;                 /* 初始隐藏, 由动画淡入到 1 */
+  transform: translateY(8px);
+  animation: tagcloud-in .5s cubic-bezier(0.16,1,0.3,1) both;
+  animation-delay: var(--tc-delay, 0ms);
+}
+
+@keyframes tagcloud-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* 高频标签(level 3/4)下方一道渐隐细墨线, 做视觉锚点、强化层次。
+   墨线用伪元素, hover 时延展, 不占布局(不引起位移)。 */
+.tagcloud-item[data-tc-level="4"]::after,
+.tagcloud-item[data-tc-level="3"]::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0.9em;      /* 右侧让开角标 */
+  bottom: -0.02em;
+  height: 2px;
+  background: linear-gradient(90deg, currentColor, transparent);
+  opacity: 0.35;
+  transform: scaleX(0.85);
+  transform-origin: left;
+  transition: transform .24s ease, opacity .24s ease;
+}
+
+.tagcloud-item:hover,
+.tagcloud-item:focus-visible {
+  color: #06565e !important;  /* 悬浮统一提亮到最深青墨 */
+  transform: translateY(-3px);
+  outline: none;
+}
+.tagcloud-item:hover::after,
+.tagcloud-item:focus-visible::after {
+  transform: scaleX(1);
+  opacity: 0.6;
+}
+
+.tagcloud-name { white-space: nowrap; }
+
+.tagcloud-count {
+  font-size: 0.42em;          /* 更精致的小上标 */
+  margin-left: 0.25em;
+  opacity: 0.5;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  vertical-align: super;
+}
+
+.tagcloud-empty {
+  padding: 3rem 0;
+  font-size: 1.1em;
+}
+
+/* 深色模式: Butterfly 给 <html> 加 [data-theme="dark"]。
+   不能用全局 filter:brightness —— 那会把最高频(最该突出)的深字压得更闷、
+   把低频字抬到近白。改为按频率档位显式给一套浅青色阶: 高频亮而实, 低频柔而淡,
+   在深底上高频依旧最醒目。档位由 tagcloud.js 的 data-tc-level(0..4) 提供。 */
+[data-theme="dark"] .tagcloud-item { color: #9fd6da !important; }
+[data-theme="dark"] .tagcloud-item[data-tc-level="4"] { color: #eafcff !important; } /* 高频: 近白青, 最亮 */
+[data-theme="dark"] .tagcloud-item[data-tc-level="3"] { color: #b8ecf1 !important; }
+[data-theme="dark"] .tagcloud-item[data-tc-level="2"] { color: #8fd0d6 !important; }
+[data-theme="dark"] .tagcloud-item[data-tc-level="1"] { color: #6fb3ba !important; }
+[data-theme="dark"] .tagcloud-item[data-tc-level="0"] { color: #5a9198 !important; } /* 低频: 柔和暗青 */
+[data-theme="dark"] .tagcloud-item:hover,
+[data-theme="dark"] .tagcloud-item:focus-visible {
+  color: #7fdfe4 !important;
+}
+
+/* 尊重减少动效偏好: 直接显示, 不做位移/淡入 */
+@media (prefers-reduced-motion: reduce) {
+  .tagcloud-item {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 移动端: 收紧间距与内边距, 词云最小高度降低避免过高 */
+@media (max-width: 600px) {
+  .page:has(.tagcloud-wrap) #page { padding: 2rem 1.2rem 2rem !important; }
+  .page:has(.tagcloud-wrap) #content-inner { padding-top: 2.5rem !important; }
+  .tagcloud-wrap { gap: 0.6em 0.8em; min-height: 160px; margin: 0.3rem auto; }
+  .tagcloud-item { max-width: 100%; }
+}

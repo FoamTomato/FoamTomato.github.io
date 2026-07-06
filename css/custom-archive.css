@@ -1,0 +1,333 @@
+/* ============================================================
+ * 归档类页面 v3 — 黑白 + Bento 网格
+ * Archives / Categories = Bento 卡片网格
+ * Tags = 极简文字链接(强制清除主题内联彩色)
+ * 零彩色,靠灰阶/字重/间距/细线;深浅双模式;reduced-motion。
+ * 作用域:#archive / .type-tags / .type-categories
+ * ============================================================ */
+
+:root {
+  --arc-ink: #141414;
+  --arc-ink-2: rgba(0,0,0,0.55);
+  --arc-ink-3: rgba(0,0,0,0.38);
+  --arc-hair: rgba(0,0,0,0.10);
+  --arc-card: #fafafa;
+  --arc-card-hover: #f2f2f2;
+  --arc-radius: 16px;
+
+  /* 分类卡青绿水墨色板(与全站 teal 主题呼应) */
+  --cat-accent: #12969e;              /* 主青墨(序号/竖线/胶囊字) */
+  --cat-accent-soft: rgba(18,150,158,0.45);
+  --cat-name: #0a3a42;                /* 名称:深青墨 */
+  --cat-name-hover: #06565e;
+  --cat-card: rgba(18,150,158,0.045);  /* 极淡青墨晕:在白色 #page 上仍清晰可辨 */
+  --cat-card-hover: rgba(18,150,158,0.085);
+  --cat-hair: rgba(18,150,158,0.18);
+  --cat-pill: rgba(18,150,158,0.10);
+  --cat-pill-border: rgba(18,150,158,0.22);
+}
+[data-theme="dark"] {
+  --arc-ink: #f2f2f2;
+  --arc-ink-2: rgba(255,255,255,0.62);
+  --arc-ink-3: rgba(255,255,255,0.40);
+  --arc-hair: rgba(255,255,255,0.12);
+  --arc-card: rgba(255,255,255,0.04);
+  --arc-card-hover: rgba(255,255,255,0.08);
+
+  --cat-accent: #4fc7cf;
+  --cat-accent-soft: rgba(79,199,207,0.4);
+  --cat-name: #e6f7f8;
+  --cat-name-hover: #ffffff;
+  --cat-card: rgba(255,255,255,0.05);
+  --cat-card-hover: rgba(255,255,255,0.09);
+  --cat-hair: rgba(120,210,215,0.16);
+  --cat-pill: rgba(79,199,207,0.14);
+  --cat-pill-border: rgba(79,199,207,0.28);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #archive .article-sort-item,
+  .type-tags .tag-cloud-list a,
+  .type-categories .category-list-item { transition: none !important; animation: none !important; }
+}
+
+/* ---- 清除主题原生的彩色圆点装饰(border 画的空心点) ---- */
+.type-categories .category-list-item::before,
+.type-categories .category-list-item::after,
+#archive .article-sort-title::before,
+#archive .article-sort-title::after,
+#archive .article-sort-item::before,
+#archive .article-sort-item::after {
+  content: none !important;
+  border: none !important;
+  background: none !important;
+  display: none !important;
+}
+
+/* ---- 丝滑进入动画:卡片交错淡入上浮(纯 CSS,只动 transform/opacity)
+ * 关键:内容默认可见(opacity:1)。进入动画只在"JS 已接管并标记 .arc-reveal"时
+ * 才把初始态压到 0(见 aurora-bg.css 的 .arc-reveal 规则),由 IntersectionObserver
+ * 加 .arc-in 显现,并有 JS 兜底强制显示。若 JS/IO 任一环节失败,卡片仍是可见的 —
+ * 绝不因动画链路故障而整页空白。 ---- */
+@keyframes arcFadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+ * 1. TAGS — 极简文字链接墙(强制去除主题内联彩色)
+ * 主题给每个 a 内联了 background-color,必须 !important 覆盖。
+ * ============================================================ */
+.type-tags .tag-cloud-list {
+  line-height: 2.7;
+  max-width: 60rem;
+  margin: 0 auto;
+  text-align: left;
+}
+.type-tags .tag-cloud-list a {
+  display: inline-block;
+  margin: 0.2rem 1.1rem 0.2rem 0;
+  padding: 0 !important;
+  background: none !important;         /* 干掉内联彩色 */
+  background-color: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  color: var(--arc-ink-2) !important;
+  font-size: 0.95rem !important;       /* 统一字号,去掉热度大小差,更简洁 */
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.type-tags .tag-cloud-list a:hover {
+  color: var(--arc-ink) !important;
+  border-bottom-color: var(--arc-ink);
+  transform: none !important;
+}
+
+/* ============================================================
+ * 2. CATEGORIES — Bento 网格卡片
+ * ============================================================ */
+/* 去掉包裹 bento 的大白框,让卡片直接浮在流动背景上,更简洁 */
+.type-categories #recent-posts,
+.type-categories .category-lists,
+.type-tags #recent-posts,
+#archive #recent-posts {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+/* ---- 分类卡:青绿水墨调,序号水印 + 名称主体 + 篇数细标,层次和谐 ----
+ * 真实 DOM(Butterfly 5.5.4):
+ *   <li.category-list-item>
+ *     <a.category-list-link>分类名</a>      ← 名称 = 链接自身文本(无 name span)
+ *     <span.category-list-count>15</span>    ← 篇数 = 链接的兄弟节点(在 li 内、a 外)
+ * 因此把 li 做成卡片容器(relative 定位),序号用 li::before 水印在右上角,
+ * 名称(a)与篇数(span)在卡片内自然纵向排布,彼此呼应而不各自孤立。*/
+.type-categories .category-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 16px;
+  counter-reset: cat;
+  padding: 0;
+  margin: 0;
+}
+.type-categories .category-list-item {
+  position: relative;          /* 承载右上角序号水印 + 底部篇数定位 */
+  list-style: none;
+  margin: 0;
+  min-height: 132px;
+  padding: 20px 22px 18px;
+  overflow: hidden;
+  background: var(--cat-card);
+  border: 1px solid var(--cat-hair);
+  border-radius: 18px;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.5) inset, 0 0 0 rgba(0,0,0,0);
+  transition:
+    background 0.28s ease,
+    transform 0.3s cubic-bezier(0.16,1,0.3,1),
+    box-shadow 0.3s cubic-bezier(0.16,1,0.3,1),
+    border-color 0.28s ease;
+}
+/* 左侧一道青墨竖线做统一视觉锚点,hover 时加粗提亮 */
+.type-categories .category-list-item::after {
+  content: "";
+  position: absolute;
+  left: 0; top: 18px; bottom: 18px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: linear-gradient(180deg, var(--cat-accent), transparent);
+  opacity: 0.55;
+  transition: opacity 0.28s ease, top 0.3s ease, bottom 0.3s ease;
+}
+/* 序号:右上角大号淡青水印,装饰而不抢戏 */
+.type-categories .category-list-item::before {
+  counter-increment: cat;
+  content: counter(cat, decimal-leading-zero);
+  position: absolute;
+  top: 12px; right: 16px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  color: var(--cat-accent);
+  opacity: 0.16;
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+.type-categories .category-list-item:hover {
+  background: var(--cat-card-hover);
+  transform: translateY(-4px);
+  border-color: var(--cat-accent-soft);
+  box-shadow: 0 14px 30px -14px rgba(10,58,66,0.35);
+}
+[data-theme="dark"] .type-categories .category-list-item:hover {
+  box-shadow: 0 14px 32px -12px rgba(0,0,0,0.6);
+}
+.type-categories .category-list-item:hover::before {
+  opacity: 0.3;
+  transform: translateY(-2px) scale(1.04);
+}
+.type-categories .category-list-item:hover::after {
+  opacity: 1; top: 14px; bottom: 14px;
+}
+/* 名称:卡片主体,深青墨,占据视觉重心 */
+.type-categories .category-list-link {
+  display: block;
+  margin: 0;
+  padding: 0 2.4rem 0 0;       /* 右侧让开序号水印 */
+  border: none !important;
+  background: none !important;
+  color: var(--cat-name) !important;
+  font-size: 1.18rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  transition: color 0.24s ease, transform 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+.type-categories .category-list-item:hover .category-list-link {
+  color: var(--cat-name-hover) !important;
+  transform: translateX(2px);
+}
+/* 篇数:卡片底部一枚精致青墨胶囊标,与名称同调呼应 */
+.type-categories .category-list-count {
+  position: absolute;
+  left: 22px; bottom: 18px;
+  margin: 0;
+  padding: 2px 10px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.5;
+  color: var(--cat-accent) !important;
+  background: var(--cat-pill) !important;
+  border: 1px solid var(--cat-pill-border);
+  border-radius: 999px;
+  transition: background 0.24s ease, color 0.24s ease, border-color 0.24s ease;
+}
+.type-categories .category-list-count::after { content: " 篇"; }
+.type-categories .category-list-item:hover .category-list-count {
+  color: #fff !important;
+  background: var(--cat-accent) !important;
+  border-color: var(--cat-accent) !important;
+}
+/* 隐藏子分类嵌套的展开(保持卡片简洁);child 列表若有则平铺 */
+.type-categories .category-list .category-list-child { display: none; }
+
+/* ============================================================
+ * 3. ARCHIVES — Bento 网格卡片(按年份分组)
+ * .article-sort 变网格;.year 占整行做分组标题;文章项变卡片。
+ * ============================================================ */
+#archive .article-sort-title {
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 200;
+  letter-spacing: -0.02em;
+  color: var(--arc-ink-3);
+  margin: 0 0 1.6rem;
+  padding: 0 0 0.5rem;
+  border-bottom: 1px solid var(--arc-hair);
+}
+
+#archive .article-sort {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+/* 年份:占满整行的分组标题 */
+#archive .article-sort-item.year {
+  grid-column: 1 / -1;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--arc-ink);
+  letter-spacing: 0.04em;
+  padding: 1.4rem 0 0.2rem;
+  border: none;
+}
+/* 文章:bento 卡片,图在上,信息在下 */
+#archive .article-sort-item:not(.year) {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: var(--arc-card);
+  border: 1px solid var(--arc-hair);
+  border-radius: var(--arc-radius);
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+  transition:
+    background 0.3s cubic-bezier(0.16,1,0.3,1),
+    transform 0.35s cubic-bezier(0.16,1,0.3,1),
+    box-shadow 0.35s cubic-bezier(0.16,1,0.3,1),
+    border-color 0.3s ease;
+}
+#archive .article-sort-item:not(.year):hover {
+  background: var(--arc-card-hover);
+  transform: translateY(-4px);
+  border-color: var(--arc-ink-3);
+  box-shadow: 0 14px 30px -12px rgba(0,0,0,0.24);
+  padding-left: 0 !important;
+}
+[data-theme="dark"] #archive .article-sort-item:not(.year):hover {
+  box-shadow: 0 14px 32px -10px rgba(0,0,0,0.6);
+}
+#archive .article-sort-item::before { display: none !important; }
+
+/* 封面图:卡片顶部,黑白化(去彩色,统一调性) */
+#archive .article-sort-item-img {
+  display: block;
+  width: 100%;
+  height: 140px;
+  margin: 0;
+  overflow: hidden;
+}
+#archive .article-sort-item-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.02);   /* 封面统一黑白 */
+  transition: transform 0.4s ease, filter 0.3s ease;
+}
+#archive .article-sort-item:hover .article-sort-item-img img {
+  transform: scale(1.04);
+  filter: grayscale(0);                   /* hover 恢复彩色,做小彩蛋 */
+}
+
+#archive .article-sort-item-info { padding: 14px 16px 16px; }
+#archive .article-sort-item-time {
+  display: block;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--arc-ink-3);
+  margin-bottom: 6px;
+}
+#archive .article-sort-item-time i { display: none; }
+#archive .article-sort-item-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--arc-ink);
+}
